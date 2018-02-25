@@ -1,0 +1,110 @@
+<doctype! html>
+<html>
+
+<head>
+	<!--
+	<script src="base64.js"></script>
+-->
+	<title>Virtual Shopping</title>
+	<style>
+	html{
+	background: url("bgrnd.jpg") no-repeat center center fixed; 
+	webkit-background-size: cover; 
+	moz-background-size: cover; 
+	o-background-size: cover; 
+	background-size: cover;
+	}
+	</style>
+	<!--
+	<script> 
+
+		//var customerName = prompt("Please enter your name", "");
+		var customerName = prompt("Please enter your name", "");
+		if (customerName!= null) {
+		    document.getElementById("username").value = customerName;
+		}
+
+ 
+
+	</script>
+-->
+</head>	
+	<body>
+<table>
+    <tr><td><font face = "arial" size="100" color="Red">Text to Save:</td></tr>
+    <tr>
+        <td colspan="3">
+            <textarea id="inputTextToSave" cols="80" rows="5"></textarea>
+        </td>
+    </tr>
+    <tr>
+        <td><font face = "arial" size="100" color="Orange">Filename to Save As:</td>
+        <td><input id="inputFileNameToSaveAs"></input></td>
+        <td><button onclick="saveTextAsFile()">Save Text to File</button></td>
+    </tr>
+    <tr>
+        <td><font face = "arial" size="100" color="Orange">Select a File to Load:</td>
+        <td><input type="file" id="fileToLoad"></td>
+        <td><button onclick="loadFileAsText()">Load Selected File</button><td>
+    </tr>
+</table>
+
+<script type="text/javascript">
+
+function saveTextAsFile()
+{
+	//<input type="reset" value="Reset" />
+	//document.getElementById("tinputFileNameToSaveAs").value = "";
+    //document.getElementById("inputTextToSave").value = "";
+    var textToSave = document.getElementById("inputTextToSave").value;
+    var textToSaveAsBlob = new Blob([textToSave], {type:"text/plain"});
+    var textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
+    var fileNameToSaveAs = document.getElementById("inputFileNameToSaveAs").value;
+
+    var downloadLink = document.createElement("a");
+    downloadLink.download = fileNameToSaveAs;
+    downloadLink.innerHTML = "Download File";
+    downloadLink.href = textToSaveAsURL;
+    downloadLink.onclick = destroyClickedElement;
+    downloadLink.style.display = "none";
+    document.body.appendChild(downloadLink);
+
+    downloadLink.click();
+    
+}
+
+function destroyClickedElement(event)
+{
+    document.body.removeChild(event.target);
+}
+
+function loadFileAsText()
+{
+    var fileToLoad = document.getElementById("fileToLoad").files[0];
+
+    var fileReader = new FileReader();
+    fileReader.onload = function(fileLoadedEvent) 
+    {
+        var textFromFileLoaded = fileLoadedEvent.target.result;
+        document.getElementById("inputTextToSave").value = textFromFileLoaded;
+    };
+    fileReader.readAsText(fileToLoad, "UTF-8");
+}
+
+</script>
+</body>
+<!--
+<body>
+	<input type="text" Id="text1" size="100"> <br>
+	<button onclick="WriteToFile()">submit</button>
+
+	<script type="text/javascript">
+      function WriteToFile() {
+        var firstName = document.getElementById('text1').value;
+        console.log(firstName);
+        window.location.href="data:application/octet-stream;base64,"+Base64.encode(firstName);
+      }
+     </script>
+</body>	
+-->
+</html>
